@@ -83,7 +83,7 @@ if OS == "Linux":
 
 elif OS == "Windows":
 
-    os.system("ipconfig > ipconfig.txt")
+   os.system("ipconfig > ipconfig.txt")
     path = os.getcwd() + "\ipconfig.txt"
 
     if os.path.isfile(path) == False:
@@ -98,12 +98,12 @@ elif OS == "Windows":
     choices = {}
     number = 0
     print("\n Voici vos adresses IP \n")
-    #os.system('ipconfig /all | findstr [0-9].\.)[1]).Split()[-1] > test.txt')
+  
     #get every ip and mask by putting them in a file
     os.system("findstr IPv4 ipconfig.txt > ipv4use.txt")
     os.system("findstr Mas ipconfig.txt > maskuse.txt")
 
-    #Print and select function of ip
+    #Print and select function of ip you want to scan
     with open("ipv4use.txt", "r") as ips:
         for ip in ips:
             usable_ip = ip.split(':')[1]
@@ -120,7 +120,7 @@ elif OS == "Windows":
         print("\nThis is not quite right !")
         userChoice = str(input("\nPlease choose the ip you want to target : "))
 
-    #taking mask depenting to ip chosed by user
+    #take mask depenting to ip chosed by user
     file = open("maskuse.txt", "r")
     lines_to_read = [int(userChoice)]
     for position, line in enumerate(file):
@@ -128,24 +128,30 @@ elif OS == "Windows":
         if position in lines_to_read:
             line = line[44:].rstrip()
             CIDR = IPAddress(line).netmask_bits() #This is the CIDR of ip
-
+    file.close()
+    
     #output of target will be "ip/cidr"
     target = ipaddr.IPv4Network(choices[userChoice])
     target = str(target)[:-2]
     target = target + str(CIDR)
     print(target)
-
+    
     # Get all hosts on that network
     #all_hosts = target.iterhosts()
     connected_hosts = []
 
+    #ping request 
     for host in IPNetwork(target):
-        print("swag")
-        output = subprocess.Popen(['ping', '/w', '1', '/W', '1', str(host)], stdout=subprocess.PIPE).communicate()[0]
-        if "icmp_seq=1" in output.decode('ISO-8859-1'):
-            print("ta mamanb mla caehbazofihaezezohbugseolkjb")
+        print("target : ",host)
+        output = subprocess.Popen(['ping', '-n', '1', '-w', '250', str(host)], stdout=subprocess.PIPE).communicate()[0]
+        if "re\x87us = 1" in output.decode('ISO-8859-1'):
+            print("This IP is ONLINE")
             connected_hosts.append(host)
             print(str(host), "is Online")
+        else:
+            print("OFFLINE")
+    print("This is the list of all connected hosts")
+    print(connected_hosts)
 
 else:
     print("Pas d'OS supporté")
