@@ -253,3 +253,19 @@ elif OS == "Windows":
            # print(i)
 else:
     print("Pas d'OS supporté")
+    
+    
+    
+        print("Voici le(s) domaine(s) auquelle vous etes connecter :", domain)
+        print("Voulez-vous faire un scan sur un scan sur (c)e domain ou un (a)utre ?")
+        choise = str(input())
+        sub_domain = ['mail','mail2','www','ns2','ns1','blog','localhost','m','ftp','mobile','ns3','smtp','search','api','dev','secure','webmail','admin','img','news','sms','marketing','test','video','www2','media','static','ads','mail2','beta','wap','blogs','download','dns1','www3','origin','shop','forum','chat','www1','image','new','tv','dns','services','music','images','pay','ddrint','conc']
+
+        if choise == "c" or choise == "C":
+            sub_scan(domain)
+        if choise == "a" or choise == "A":
+            domain = []
+            #choise = 
+            domain.append(str(input("Veuiller indiquer le domain sur lequelle vous vouler scanner les sous domains")))
+            print(domain)
+            sub_scan(domain)
