@@ -13,6 +13,19 @@ printl = 0
 scan_ping = 0
 scan_domain = 0
 
+def sub_scan(dom):
+    for dom in domain:
+            for sub in sub_domain :
+                url = f"http://{sub}.{dom}"
+                print(url)
+                try:
+                    requests.get(url)
+                except requests.ConnectionError:
+                    pass
+                else:
+                    print("-----Discovered subdomain:", url)
+                    discovered_subdomains.append(url)
+                    
 if len(sys.argv) == 1:
     print("-p pour le scan de ping | -s pour le scan de port | -o pour sortire les resultat dans un fichier")
     print("Subtilité : -s = -p -s  | -o = -p -s -o")
